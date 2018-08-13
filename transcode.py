@@ -28,12 +28,14 @@ if os.path.isdir(torrent_full):
     if len(movies) == 1:
         # Single movie
         out_prefix = '/home/Movies/' + torrent_name + '/'
-        subprocess.check_output(['mkdir', out_prefix])
+        if not os.path.exists(out_prefix):
+            os.makedirs(out_prefix)
     else:
         # TV series
         out_prefix = '/home/TV Shows/' + torrent_name + '/'
-        subprocess.check_output(['mkdir', out_prefix])
-    
+        if not os.path.exists(out_prefix):
+            os.makedirs(out_prefix)
+        
     for movie in movies:
         movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
         encode(movie, movie_name)
