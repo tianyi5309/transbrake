@@ -42,7 +42,7 @@ if os.path.isdir(torrent_full):
             os.makedirs(out_prefix)
         
     for movie in movies:
-        movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]).replace('.', ' ') + '.mp4'
+        movie_name = out_prefix + (''.join(movie.split('/')[-1].split('.')[:-1])).replace('.', ' ') + '.mp4'
         encode(movie, movie_name)
 else:
     # Single file
