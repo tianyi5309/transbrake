@@ -3,11 +3,18 @@ import os
 import sys
 import glob
 import subprocess
+import psutil
+import time
 
 torrent_dir = sys.argv[1]
 torrent_name = sys.argv[2]
 
 torrent_full = torrent_dir + '/' + torrent_name
+
+def encode(inmov, outmov):
+    while psutil.cpu_percent() > 50:
+        time.sleep(30)
+    subprocess.check_output(['HandBrakeCLI', '-i', inmov, '-o', outmov, '-e', 'x264', '-q', '20', '-B', '160', '--encoder-preset', 'faster', '--all-subtitles', '-O'])
 
 if os.path.isdir(torrent_full):
     movies = []
@@ -22,8 +29,7 @@ if os.path.isdir(torrent_full):
     
     for movie in movies:
         movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
-        command = ['HandBrakeCLI', '-i', movie, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster', '--all-subtitles']
-        subprocess.check_output(command)
+        encode(movie, movie_name)
 else:
     movie_name = '/home/Movies/' + ''.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
-    subprocess.check_output(['HandBrakeCLI', '-i', torrent_full, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster', '--all-subtitles'])
+    encode(torrent_full, movie_name)
