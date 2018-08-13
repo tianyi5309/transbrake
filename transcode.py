@@ -21,7 +21,7 @@ if os.path.isdir(torrent_full):
         subprocess.check_output(['mkdir', out_prefix])
     
     for movie in movies:
-        movie_name = out_prefix + movie.split('/')[-1].split('.')[0] + '.mp4'
+        movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
         command = ['HandBrakeCLI', '-i', movie, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster']
         subprocess.check_output(command)
 else:
