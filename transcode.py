@@ -22,7 +22,9 @@ if os.path.isdir(torrent_full):
     
     for movie in movies:
         movie_name = out_prefix + vmovie.split('/')[-1].split('.')[0] + '.mp4'
-        subprocess.check_output(['HandBrakeCLI', '-i', movie, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster'])
+        command = ['HandBrakeCLI', '-i', movie, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster']
+        print(command)
+        subprocess.check_output(command)
 else:
     movie_name = '/home/Movies/' + vmovie.split('/')[-1].split('.')[0] + '.mp4'
     subprocess.check_output(['HandBrakeCLI', '-i', torrent_full, '-o', movie_name, '-e', 'x265', '-q', '20', '-B', '160', '--encoder-preset', 'faster'])
