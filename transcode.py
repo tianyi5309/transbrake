@@ -13,11 +13,11 @@ torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
     print('Encoding movie ' + inmov + ' to ' + outmov)
-    print('Current CPU: ', psutil.cpu_percent())
-    while psutil.cpu_percent() > 50:
-        print('Waiting until cpu usage decreases (' + str(psutil.cpu_percent()) + ')')
-        time.sleep(120)
-    print('CPU: ' + str(psutil.cpu_percent()) + ',', psutil.cpu_percent() < 50)
+    cpu = psutil.cpu_percent(interval=10)
+    print('Current CPU: ', cpu)
+    while cpu > 50:
+        print('Waiting until cpu usage decreases (' + str(cpu) + ')')
+        cpu = psutil.cpu_percent(interval=120)
     subprocess.check_output(['HandBrakeCLI', '-i', inmov, '-o', outmov, '-e', 'x264', '-q', '16', '-B', '160', '--encoder-preset', 'fast', '--all-subtitles', '-O', '--all-audio'])
 
 if os.path.isdir(torrent_full):
