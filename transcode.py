@@ -20,10 +20,10 @@ def encode(inmov, outmov):
 if os.path.isdir(torrent_full):
     # Torrent folder
     movies = []
-    print('Movies: ', movies)
     movies.extend(glob.iglob(torrent_full + '/**/*.mkv', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.mp4', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.avi', recursive=True))
+    print('Movies: ', movies)
     
     if len(movies) == 1:
         # Single movie
