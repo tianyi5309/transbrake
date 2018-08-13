@@ -14,7 +14,7 @@ torrent_full = torrent_dir + '/' + torrent_name
 def encode(inmov, outmov):
     while psutil.cpu_percent() > 50:
         time.sleep(30)
-    subprocess.check_output(['HandBrakeCLI', '-i', inmov, '-o', outmov, '-e', 'x264', '-q', '20', '-B', '160', '--encoder-preset', 'faster', '--all-subtitles', '-O'])
+    subprocess.check_output(['HandBrakeCLI', '-i', inmov, '-o', outmov, '-e', 'x264', '-q', '20', '-B', '160', '--encoder-preset', 'faster', '--all-subtitles', '-O', '--all-audio'])
 
 if os.path.isdir(torrent_full):
     movies = []
