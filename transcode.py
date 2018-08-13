@@ -47,5 +47,5 @@ if os.path.isdir(torrent_full):
 else:
     # Single file
     print('Single movie: ', torrent_full)
-    movie_name = '/home/Movies/' + ''.join(torrent_full.split('/')[-1].split('.')[:-1]).replace('.', ' ') + '.mp4'
+    movie_name = '/home/Movies/' + ' '.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
     encode(torrent_full, movie_name)
