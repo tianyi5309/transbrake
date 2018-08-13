@@ -28,6 +28,8 @@ if os.path.isdir(torrent_full):
     movies.extend(glob.iglob(torrent_full + '/**/*.avi', recursive=True))
     print('Movies: ', movies)
     
+    torrent_name = torrent_name.replace('.', ' ')
+    
     if len(movies) == 1:
         # Single movie
         out_prefix = '/home/Movies/' + torrent_name + '/'
@@ -40,10 +42,10 @@ if os.path.isdir(torrent_full):
             os.makedirs(out_prefix)
         
     for movie in movies:
-        movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
+        movie_name = out_prefix + ''.join(movie.split('/')[-1].split('.')[:-1]).replace('.', ' ') + '.mp4'
         encode(movie, movie_name)
 else:
     # Single file
     print('Single movie: ', torrent_full)
-    movie_name = '/home/Movies/' + ''.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
+    movie_name = '/home/Movies/' + ''.join(torrent_full.split('/')[-1].split('.')[:-1]).replace('.', ' ') + '.mp4'
     encode(torrent_full, movie_name)
