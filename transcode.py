@@ -13,7 +13,9 @@ torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
     print('Copying movie ' + inmov + ' to ' + outmov)
-    subprocess.check_output(['mv', inmov, outmov]) # copy file
+    subprocess.check_output(['ffmpeg', '-i', inmov, '-codec', 'copy', outmov])
+
+    # subprocess.check_output(['mv', inmov, outmov]) # copy file
     # print('Encoding movie ' + inmov + ' to ' + outmov)
     # cpu = psutil.cpu_percent(interval=10)
     # print('Current CPU: ', cpu)
