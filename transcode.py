@@ -12,6 +12,7 @@ torrent_name = sys.argv[2]
 torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
+    print('Encoding movie ', inmov)
     while psutil.cpu_percent() > 50:
         time.sleep(120)
     subprocess.check_output(['HandBrakeCLI', '-i', inmov, '-o', outmov, '-e', 'x264', '-q', '16', '-B', '160', '--encoder-preset', 'fast', '--all-subtitles', '-O', '--all-audio'])
@@ -19,6 +20,7 @@ def encode(inmov, outmov):
 if os.path.isdir(torrent_full):
     # Torrent folder
     movies = []
+    print('Movies: ', movies)
     movies.extend(glob.iglob(torrent_full + '/**/*.mkv', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.mp4', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.avi', recursive=True))
@@ -37,5 +39,6 @@ if os.path.isdir(torrent_full):
         encode(movie, movie_name)
 else:
     # Single file
+    print('Single movie: ', torrent_full)
     movie_name = '/home/Movies/' + ''.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
     encode(torrent_full, movie_name)
