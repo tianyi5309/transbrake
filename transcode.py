@@ -21,8 +21,8 @@ def encode(inmov, outmov):
         cpu = psutil.cpu_percent(interval=120)
     
     # Parse input streams
-    streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())
-    print('streams :', streams)
+    streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())['streams']
+    # print('streams :', streams)
     filtered_codecs = ['hdmv_pgs_subtitle']
     filtered_streams = []
     for stream in streams:
