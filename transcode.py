@@ -23,12 +23,16 @@ def encode(inmov, outmov):
     # Parse input streams
     streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())
     print('streams :', streams)
+    filtered_codecs = ['hdmv_pgs_subtitle']
     filtered_streams = []
-    
+    for stream in streams:
+        if 'codec_name' in stream and stream['codec_name'] in filtered_codecs:
+            filtered_streams.append(stream['index'])
+    print('Filtering streams', filtered_streams)
     filters = []
-    for stream in filtered_streams:
+    for streamn in filtered_streams:
         filters.append('-map')
-        filters.append('-0:' + str(stream))
+        filters.append('-0:' + str(streamn))
     
     # Transcode
     subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
