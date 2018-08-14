@@ -9,4 +9,4 @@ delay = sys.argv[2]
 # Generate copied file
 subprocess.check_output(['ffmpeg', '-i', movie, '-itsoffset', delay, '-i', movie, '-map', '0', '-map', '-0:a', '-map', '1:a', '-codec', 'copy', 'out.mkv'])
 
-# subprocess.check_output(['mv', 'out.mkv', movie])
+subprocess.check_output(['mv', 'out.mkv', movie])
