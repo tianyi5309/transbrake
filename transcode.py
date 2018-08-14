@@ -18,6 +18,11 @@ def encode(inmov, outmov):
     while cpu > 50:
         print('Waiting until cpu usage decreases (' + str(cpu) + ')')
         cpu = psutil.cpu_percent(interval=120)
+    
+    # Parse input streams
+    streams = subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams'])
+    print(streams)
+    # Transcode
     subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?', '-map', '-0:m:codec_name:hdmv_pgs_subtitle', '-vcodec', 'libx264', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
     
     # print('Copying movie ' + inmov + ' to ' + outmov)
