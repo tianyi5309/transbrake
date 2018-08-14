@@ -13,7 +13,7 @@ torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
     print('Encoding movie ' + inmov + ' to ' + outmov)
-    cpu = psutil.cpu_percent(interval=10)
+    cpu = psutil.cpu_percent(interval=3)
     print('Current CPU: ', cpu)
     while cpu > 50:
         print('Waiting until cpu usage decreases (' + str(cpu) + ')')
