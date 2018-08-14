@@ -13,7 +13,7 @@ torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
     print('Copying movie ' + inmov + ' to ' + outmov)
-    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0:v', '-map', '0:a', '-map', '0:s?', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?', '-vcodec', 'copy', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', outmov])
+    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?', '-vcodec', 'copy', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'copy', outmov])
 
     # subprocess.check_output(['mv', inmov, outmov]) # copy file
     # print('Encoding movie ' + inmov + ' to ' + outmov)
@@ -46,10 +46,10 @@ if os.path.isdir(torrent_full):
             os.makedirs(out_prefix)
         
     for movie in movies:
-        movie_name = out_prefix + ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
+        movie_name = out_prefix + ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mkv'
         encode(movie, movie_name)
 else:
     # Single file
     print('Single movie: ', torrent_full)
-    movie_name = '/home/Movies/' + ' '.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
+    movie_name = '/home/Movies/' + ' '.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mkv'
     encode(torrent_full, movie_name)
