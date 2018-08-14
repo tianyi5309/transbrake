@@ -20,7 +20,7 @@ def encode(inmov, outmov):
         cpu = psutil.cpu_percent(interval=120)
     
     # Parse input streams
-    subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams'])
+    subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov])
     print(streams)
     # Transcode
     subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?', '-vcodec', 'libx264', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
