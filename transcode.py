@@ -73,7 +73,11 @@ if os.path.isdir(torrent_full):
         print('TV Series identified, saving to ', out_prefix)
         if not os.path.exists(out_prefix):
             print('Directory does not exist, creating ...')
-            os.makedirs(out_prefix)
+            try:
+                os.makedirs(out_prefix)
+            except Exception as e:
+                print e.__doc__
+                print e.message
             print('Directory created')
         print('dealt with directory stuff')
         
