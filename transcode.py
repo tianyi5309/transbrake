@@ -72,7 +72,10 @@ if os.path.isdir(torrent_full):
         out_prefix = '/home/TV Shows/' + torrent_name + '/'
         print('TV Series identified, saving to ', out_prefix)
         if not os.path.exists(out_prefix):
+            print('Directory does not exist, creating ...')
             os.makedirs(out_prefix)
+            print('Directory created')
+        print('dealt with directory stuff')
         
     for movie in movies:
         movie_name = out_prefix + ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
