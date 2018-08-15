@@ -7,7 +7,7 @@ import psutil
 import time
 import json
 
-# torrent_dir = sys.argv[1]
+torrent_dir = sys.argv[1]
 torrent_name = sys.argv[2]
 torrent_full = '/home/Torrents/' + torrent_name
 
@@ -64,11 +64,13 @@ if os.path.isdir(torrent_full):
     if len(movies) == 1:
         # Single movie
         out_prefix = '/home/Movies/' + torrent_name + '/'
+        print('Movie identified, saving to ', out_prefix)
         if not os.path.exists(out_prefix):
             os.makedirs(out_prefix)
     else:
         # TV series
         out_prefix = '/home/TV Shows/' + torrent_name + '/'
+        print('TV Series identified, saving to ', out_prefix)
         if not os.path.exists(out_prefix):
             os.makedirs(out_prefix)
         
