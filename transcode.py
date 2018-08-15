@@ -7,10 +7,11 @@ import psutil
 import time
 import json
 
-torrent_dir = sys.argv[1]
+# torrent_dir = sys.argv[1]
 torrent_name = sys.argv[2]
+torrent_full = '/home/Torrents/' + torrent_name
 
-torrent_full = torrent_dir + '/' + torrent_name
+# torrent_full = torrent_dir + '/' + torrent_name
 
 def encode(inmov, outmov):
     print('Encoding movie ' + inmov + ' to ' + outmov)
