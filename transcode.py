@@ -76,8 +76,8 @@ if os.path.isdir(torrent_full):
             try:
                 os.makedirs(out_prefix)
             except Exception as e:
-                print e.__doc__
-                print e.message
+                print(e.__doc__)
+                print(e.message)
             print('Directory created')
         print('dealt with directory stuff')
         
