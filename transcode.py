@@ -35,7 +35,7 @@ def encode(inmov, outmov):
         filters.append('-0:' + str(streamn))
     
     # Transcode
-    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-vf', 'hqdn3d=2:1:2:3', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
+    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-vf', 'hqdn3d=2:1:2:3', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
     
     # print('Copying movie ' + inmov + ' to ' + outmov)
     # subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?', '-vcodec', 'copy', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'copy', outmov])
