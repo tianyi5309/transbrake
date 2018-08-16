@@ -51,6 +51,7 @@ def encode(inmov, outmov):
     
     # Transcode
     subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
+    log.save()
 
 if os.path.isdir(torrent_full):
     # Torrent folder
