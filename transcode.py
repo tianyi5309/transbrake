@@ -9,7 +9,7 @@ import json
 
 # Reminder: set permissions to write to /Movies, /TV Shows, /Torrents
 
-torrent_name = sys.argv[2]
+torrent_name = sys.argv[1]
 torrent_full = '/home/Torrents/' + torrent_name
 
 class Logger:
