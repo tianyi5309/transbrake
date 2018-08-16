@@ -31,29 +31,42 @@ def encode(inmov, outdir, outname):
     outtmp = '/home/Torrents/tmp/' + outname
     outmov = outdir + outname
     log.write('Encoding movie ' + inmov + ' to ' + outmov)
-    # cpu = psutil.cpu_percent(interval=3)
-    # print('Current CPU: ', cpu)
-    # while cpu > 50:
-    #     print('Waiting until cpu usage decreases (' + str(cpu) + ')')
-    #     sleep(300)
-    #     cpu = psutil.cpu_percent(interval=0.5)
     
     # Parse input streams
     streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())['streams']
-    # print('streams :', streams)
-    filtered_codecs = ['hdmv_pgs_subtitle', 'mjpeg']
-    filtered_streams = []
+    streams = sorted(streams, key=lambda k: k['index']) # sort streams by index
+    print('streams = ', streams)
+    
+    chosen_streams_numbers = []
+    # Video stream - first video stream
     for stream in streams:
-        if 'codec_name' in stream and stream['codec_name'] in filtered_codecs:
-            filtered_streams.append(stream['index'])
-    log.write('Filtering streams', filtered_streams)
-    filters = []
-    for streamn in filtered_streams:
-        filters.append('-map')
-        filters.append('-0:' + str(streamn))
+        if stream['codec_type'] == 'video':
+            chosen_streams_numbers.append(stream['index'])
+            break
+    
+    # Audio stream - choose all non-russian/ukranian audio
+    for stream in streams:
+        if stream['codec_type'] == 'audio':
+            banned_languages = ['ukr', 'rus']
+            if stream['tags']['language'] not in banned_languages:
+                chosen_streams_numbers.append(stream['index'])
+    
+    # All subtitles except for russian and ukranian
+    for stream in streams:
+        if stream['codec_type'] == 'subtitle':
+            banned_languages = ['ukr', 'rus']
+            banned_codecs = ['hdmv_pgs_subtitle']
+            if stream['tags']['language'] not in banned_languages and stream['codec_name'] not in banned_codecs:
+                chosen_streams_numbers.append(stream['index'])
+    
+    log.write('Selected streams = ', chosen_streams_numbers)
+    chosen_streams = []
+    for stream in chosen_streams_numbers:
+        chosen_streams.extend('-map', '0:'+str(stream))
+    
     
     # Transcode
-    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
+    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
     subprocess.check_output(['mv', outtmp, outmov])
     
     processed.write(inmov, 'encoded to', outmov)
