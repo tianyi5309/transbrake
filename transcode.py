@@ -21,7 +21,8 @@ def encode(inmov, outmov):
     print('Current CPU: ', cpu)
     while cpu > 50:
         print('Waiting until cpu usage decreases (' + str(cpu) + ')')
-        cpu = psutil.cpu_percent(interval=120)
+        sleep(300)
+        cpu = psutil.cpu_percent(interval=0.5)
     
     # Parse input streams
     streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())['streams']
