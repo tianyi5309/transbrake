@@ -62,7 +62,7 @@ def encode(inmov, outdir, outname):
     log.write('Selected streams = ', chosen_streams_numbers)
     chosen_streams = []
     for stream in chosen_streams_numbers:
-        chosen_streams.extend('-map', '0:'+str(stream))
+        chosen_streams.extend(['-map', '0:'+str(stream)])
     
     
     # Transcode
