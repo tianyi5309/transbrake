@@ -27,7 +27,9 @@ class Logger:
 log = Logger('/home/Torrents/log.txt')
 processed = Logger('/home/Torrents/processed.txt')
 
-def encode(inmov, outmov):
+def encode(inmov, outdir, outname):
+    outtmp = '/home/Torrents/tmp/' + outname
+    outmov = outdir + outname
     log.write('Encoding movie ' + inmov + ' to ' + outmov)
     # cpu = psutil.cpu_percent(interval=3)
     # print('Current CPU: ', cpu)
@@ -51,7 +53,9 @@ def encode(inmov, outmov):
         filters.append('-0:' + str(streamn))
     
     # Transcode
-    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outmov])
+    subprocess.check_output(['ffmpeg', '-i', inmov, '-map', '0', '-map', '-0:m:language:rus?', '-map', '-0:m:language:ukr?'] + filters + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-map_metadata', '-1', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
+    subprocess.check_output(['mv', outtmp, outmov])
+    
     processed.write(inmov, 'encoded to', outmov)
     processed.save()
 
@@ -78,12 +82,12 @@ if os.path.isdir(torrent_full):
                 os.makedirs(out_prefix)
         
     for movie in movies:
-        movie_name = out_prefix + ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
-        encode(movie, movie_name)
+        movie_name = ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
+        encode(movie, out_prefix, movie_name)
 else:
     # Single file
     log.write('Single movie: ', torrent_full)
-    movie_name = '/home/Movies/' + ' '.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
-    encode(torrent_full, movie_name)
+    movie_name = ' '.join(torrent_full.split('/')[-1].split('.')[:-1]) + '.mp4'
+    encode(torrent_full, '/home/Movies/', movie_name)
 
 log.save()
