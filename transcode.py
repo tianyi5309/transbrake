@@ -77,6 +77,7 @@ if os.path.isdir(torrent_full):
     movies.extend(glob.iglob(torrent_full + '/**/*.mkv', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.mp4', recursive=True))
     movies.extend(glob.iglob(torrent_full + '/**/*.avi', recursive=True))
+    movies.sort()
     log.write('Movies: ', movies)
     
     torrent_name = torrent_name.replace('.', ' ')
