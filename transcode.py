@@ -26,7 +26,7 @@ def encode(inmov, outmov):
     # Parse input streams
     streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())['streams']
     # print('streams :', streams)
-    filtered_codecs = ['hdmv_pgs_subtitle']
+    filtered_codecs = ['hdmv_pgs_subtitle', 'mjpeg']
     filtered_streams = []
     for stream in streams:
         if 'codec_name' in stream and stream['codec_name'] in filtered_codecs:
