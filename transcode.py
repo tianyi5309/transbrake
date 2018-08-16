@@ -35,7 +35,6 @@ def encode(inmov, outdir, outname):
     # Parse input streams
     streams = json.loads(subprocess.check_output(['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', inmov]).decode())['streams']
     streams = sorted(streams, key=lambda k: k['index']) # sort streams by index
-    print('streams = ', streams)
     
     chosen_streams_numbers = []
     # Video stream - first video stream
