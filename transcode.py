@@ -63,6 +63,13 @@ def encode(inmov, outdir, outname):
     for stream in chosen_streams_numbers:
         chosen_streams.extend(['-map', '0:'+str(stream)])
     
+    # Wait for cpu usage to decrease
+    cpu = psutil.cpu_percent(interval=0.5)
+    log.write('Current CPU: ', cpu)
+    while cpu > 50:
+        log.write('Waiting until cpu usage decreases (' + str(cpu) + ')')
+        sleep(300)
+        cpu = psutil.cpu_percent(interval=0.5)
     
     # Transcode
     subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
