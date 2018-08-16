@@ -66,7 +66,7 @@ def encode(inmov, outdir, outname):
     
     
     # Transcode
-    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
+    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3.0:3.0', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
     subprocess.check_output(['mv', outtmp, outmov])
     
     processed.write(inmov, 'encoded to', outmov)
