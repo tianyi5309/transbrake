@@ -73,10 +73,13 @@ def encode(inmov, outdir, outname):
         cpu = psutil.cpu_percent(interval=0.5)
     
     # Transcode
+    start = time.time()
     subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:6:6', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
     subprocess.check_output(['mv', outtmp, outmov])
-    
-    processed.write(inmov, 'encoded to', outmov)
+    end = time.time()
+    elapsed = end - start
+    elapsed //= 60
+    processed.write(inmov, 'encoded to', outmov, 'in', '{}h{}m'.format(elapsed//60, elapsed%60))
     processed.save()
 
 if os.path.isdir(torrent_full):
