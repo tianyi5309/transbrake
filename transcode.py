@@ -74,7 +74,7 @@ def encode(inmov, outdir, outname):
     
     # Transcode
     start = time.time()
-    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3:3', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
+    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264-params', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '8M', '-bufsize', '8M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=0.0:0.0:3:3', '-profile:v', 'high', '-level', '4.2', '-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', 'faststart', outtmp])
     subprocess.check_output(['mv', outtmp, outmov])
     end = time.time()
     elapsed = end - start
