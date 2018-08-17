@@ -21,7 +21,7 @@ class Logger:
         print(s)
         self.record += s + '\n'
     def save(self):
-        with open(filename, 'a') as f:
+        with open(self.filename, 'a') as f:
             f.write(self.record)
         self.record = ''
 
