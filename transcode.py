@@ -69,7 +69,7 @@ def encode(inmov, outdir, outname):
     log.write('Current CPU: ', cpu)
     while cpu > 50:
         log.write('Waiting until cpu usage decreases (' + str(cpu) + ')')
-        sleep(300)
+        time.sleep(300)
         cpu = psutil.cpu_percent(interval=0.5)
     
     # Transcode
