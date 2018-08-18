@@ -74,7 +74,7 @@ def encode(inmov, outdir, outname):
     
     # Transcode
     start = time.time()
-    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264opts', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '6M', '-bufsize', '3M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=1:1:4:4', '-profile:v', 'high', '-level', '4.2', '-pix_fmt', 'yuv420p','-acodec', 'aac', '-b:a', '256k', '-scodec', 'mov_text', '-movflags', '+faststart', outtmp])
+    subprocess.check_output(['ffmpeg', '-i', inmov] + chosen_streams + ['-vcodec', 'libx264', '-x264opts', 'analyse=none:ref=1:rc-lookahead=30', '-crf', '18', '-maxrate', '6M', '-bufsize', '3M', '-preset', 'fast', '-tune', 'film', '-filter:v', 'hqdn3d=1:1:4:4', '-profile:v', 'high', '-level', '4.2', '-pix_fmt', 'yuv420p','-acodec', 'aac', '-ac', '2', '-b:a', '256k', '-af', 'aresample=async=1000:min_hard_comp=0.100000:first_pts=0', '-scodec', 'mov_text', '-movflags', '+faststart', outtmp])
     subprocess.check_output(['mv', outtmp, outmov])
     end = time.time()
     elapsed = end - start
