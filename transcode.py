@@ -28,6 +28,9 @@ class Logger:
 log = Logger('/home/Torrents/log.txt')
 processed = Logger('/home/Torrents/processed.txt')
 
+log.write('Torrent name is ', torrent_name)
+log.write('Torrent full name is ', torrent_full)
+
 def encode(inmov, outdir, outname):
     outtmp = '/home/Torrents/tmp/' + outname
     outmov = outdir + outname
