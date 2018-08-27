@@ -98,7 +98,7 @@ if os.path.isdir(torrent_full):
     
     if len(movies) == 1:
         # Single movie
-        out_prefix = '/home/Movies/' + torrent_name + '/'
+        out_prefix = '/home/Movies/'
         log.write('Movie identified, saving to ', out_prefix)
     else:
         # TV series
