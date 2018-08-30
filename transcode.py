@@ -109,8 +109,12 @@ if os.path.isdir(torrent_full):
                 os.makedirs(out_prefix)
         
     for movie in movies:
-        movie_name = ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
-        encode(movie, out_prefix, movie_name)
+        try:
+            movie_name = ' '.join(movie.split('/')[-1].split('.')[:-1]) + '.mp4'
+            encode(movie, out_prefix, movie_name)
+        except:
+            e = sys.exc_info()[0]
+            log.write('ERROR:', e)
 else:
     # Single file
     log.write('Single movie: ', torrent_full)
