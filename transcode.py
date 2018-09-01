@@ -51,7 +51,7 @@ def encode(inmov, outdir, outname):
     for stream in streams:
         if stream['codec_type'] == 'audio':
             banned_languages = ['ukr', 'rus']
-            if stream['tags']['language'] not in banned_languages:
+            if 'tags' in stream and 'language' in stream['tags'] and stream['tags']['language'] not in banned_languages:
                 chosen_streams_numbers.append(stream['index'])
     
     # All subtitles except for russian and ukranian
@@ -59,7 +59,7 @@ def encode(inmov, outdir, outname):
         if stream['codec_type'] == 'subtitle':
             banned_languages = ['ukr', 'rus']
             banned_codecs = ['hdmv_pgs_subtitle']
-            if stream['tags']['language'] not in banned_languages and stream['codec_name'] not in banned_codecs:
+            if 'tags' in stream and 'language' in stream['tags'] and stream['tags']['language'] not in banned_languages and stream['codec_name'] not in banned_codecs:
                 chosen_streams_numbers.append(stream['index'])
     
     log.write('Selected streams = ', chosen_streams_numbers)
